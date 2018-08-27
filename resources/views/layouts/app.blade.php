@@ -2,13 +2,10 @@
 <html>
     <head>
         <meta charset="utf-8">
-        
         <title>Tasklist</title>
-        
-        
     </head>
 
     <body>
-            @yield('content')
+        @yield('content')
     </body>
 </html>
