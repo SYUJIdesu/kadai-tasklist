@@ -15,7 +15,7 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $tasks = Tasklist::all();
+        $tasks = Task::all();
 
         return view('tasks.index', [
             'tasks' => $tasks,
@@ -29,7 +29,7 @@ class TasksController extends Controller
      */
     public function create()
     {
-        $task = new Tasklist;
+        $task = new Task;
 
         return view('tasks.create', [
             'task' => $task,
@@ -50,7 +50,7 @@ class TasksController extends Controller
         ]);
         
         
-        $task = new Tasklist;
+        $task = new Task;
         $task->content = $request->content;
         $task->save();
 
@@ -65,7 +65,7 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        $task = Tasklist::find($id);
+        $task = Task::find($id);
 
         return view('tasks.show', [
             'task' => $task,
@@ -80,7 +80,7 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-        $task = Tasklist::find($id);
+        $task = Task::find($id);
 
         return view('tasks.edit', [
             'task' => $task,
@@ -101,7 +101,7 @@ class TasksController extends Controller
             'content' => 'required|max:191',
         ]);
         
-        $task = Tasklist::find($id);
+        $task = Task::find($id);
         $task->content = $request->content;
         $task->save();
 
@@ -116,7 +116,7 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        $task = Tasklist::find($id);
+        $task = Task::find($id);
         $task->delete();
 
         return redirect('/');
