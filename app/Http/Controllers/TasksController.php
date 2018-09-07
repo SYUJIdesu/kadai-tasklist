@@ -15,6 +15,8 @@ class TasksController extends Controller
      */
     public function index()
     {
+        $tasks = Task::all();
+        
        $data = [];
         if (\Auth::check()) {
             $user = \Auth::user();
@@ -27,7 +29,7 @@ class TasksController extends Controller
                 'tasks' => $tasks,
             ];
             $data += $this->counts($user);
-            return view('users.index', $data);
+            return view('tasks.index', $data);
         }else {
             return view('welcome');
         }
@@ -61,6 +63,8 @@ class TasksController extends Controller
             'status' => 'required|max:10',   
             'content' => 'required|max:191',
         ]);
+        
+        
             
         $request->user()->tasks()->create([
             'status' => $request->status,
@@ -82,10 +86,14 @@ class TasksController extends Controller
     public function show($id)
     {
         $task = Task::find($id);
-
+        
+        if (\Auth::id() === $task->user_id) {
         return view('tasks.show', [
             'task' => $task,
         ]);
+        }
+        
+        return redirect('/');
     }
 
     /**
@@ -99,10 +107,13 @@ class TasksController extends Controller
         
         $task = Task::find($id);
         
-
+        if (\Auth::id() === $task->user_id) {
         return view('tasks.edit', [
             'task' => $task,
         ]);
+        }
+        
+        return redirect('/');
     }
 
     /**
@@ -122,10 +133,10 @@ class TasksController extends Controller
         $task = Task::find($id);
         
         if (\Auth::id() === $task->user_id){
-        $request->user()->tasks()->create([
-            'status' => $request->status,
-            'content' => $request->content,
-        ]);
+            $request->user()->tasks()->create([
+                'status' => $request->status,
+                'content' => $request->content,
+            ]);
         }
 
         return redirect('/');
