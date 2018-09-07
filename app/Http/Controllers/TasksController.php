@@ -130,14 +130,13 @@ class TasksController extends Controller
             'content' => 'required|max:191',
         ]);
         
+        
         $task = Task::find($id);
         
-        if (\Auth::id() === $task->user_id){
-            $request->user()->tasks()->create([
-                'status' => $request->status,
-                'content' => $request->content,
-            ]);
-        }
+        $task->status = $request->status;
+        $task->content = $request->content;
+        $task->save();
+        
 
         return redirect('/');
     }
